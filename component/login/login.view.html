@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="columns">
+        <div class="column"></div>
+        <div class="column">
+            <form id="login">
+                <div class="form-group">
+                    <label class="form-label" for="input-example-1">Username or Email</label>
+                    <input class="form-input" type="text" id="input-example-1" required placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="input-example-2">Password</label>
+                    <input class="form-input" type="password" id="input-example-2" required placeholder="your password">
+                </div>
+                <button type="submit" class="btn btn-success">login</button>
+            </form>
+            <button id="logout" class="btn btn-error" style="display: none">Logout</button>
+        </div>
+        <div class="column"></div>
+    </div>
+
+</div>
+
+<script>
+    const login = document.getElementById('login');
+    const logout = document.getElementById('logout')
+
+
+
+    login.addEventListener('submit', ev => {
+        ev.preventDefault();
+        const credentials = {
+            userName: login.elements[0].value,
+            password: login.elements[1].value
+        };
+        axios.post('{{base}}api.v1/login', credentials).then(res => {
+            localStorage.setItem('moe-token', res.data.token);
+            localStorage.setItem('user',JSON.stringify(res.data.user));
+            checkLoggedIn();
+        }).catch(e => {
+            alert('wrong credentials')
+        })
+    });
+
+    logout.addEventListener('click', ev =>{
+        localStorage.clear();
+        checkLoggedIn();
+    })
+
+    function checkLoggedIn(){
+        if(localStorage.getItem('moe-token')){
+            login.style.display = 'none';
+            logout.style.display = 'block';
+        } else {
+            login.style.display = 'block';
+            logout.style.display = 'none'
+        }
+    }
+    checkLoggedIn();
+</script>
