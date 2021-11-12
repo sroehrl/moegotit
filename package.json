@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/sroehrl/neoan3#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.2"
   }
 }
